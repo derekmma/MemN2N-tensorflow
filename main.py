@@ -29,28 +29,29 @@ FLAGS = flags.FLAGS
 
 def main(_):
     count = []
-    word2idx = {}
+    word2idx = {} # define a dict to index all words
 
     if not os.path.exists(FLAGS.checkpoint_dir):
       os.makedirs(FLAGS.checkpoint_dir)
 
-    train_data = read_data('%s/%s.train.txt' % (FLAGS.data_dir, FLAGS.data_name), count, word2idx)
-    valid_data = read_data('%s/%s.valid.txt' % (FLAGS.data_dir, FLAGS.data_name), count, word2idx)
+    #train_data = read_data('%s/%s.train.txt' % (FLAGS.data_dir, FLAGS.data_name), count, word2idx)
+    #valid_data = read_data('%s/%s.valid.txt' % (FLAGS.data_dir, FLAGS.data_name), count, word2idx)
     test_data = read_data('%s/%s.test.txt' % (FLAGS.data_dir, FLAGS.data_name), count, word2idx)
+    print (test_data[0:100])
 
     idx2word = dict(zip(word2idx.values(), word2idx.keys()))
     FLAGS.nwords = len(word2idx)
 
     pp.pprint(flags.FLAGS.__flags)
 
-    with tf.Session() as sess:
-        model = MemN2N(FLAGS, sess)
-        model.build_model()
+    # with tf.Session() as sess:
+    #     model = MemN2N(FLAGS, sess)
+    #     model.build_model()
 
-        if FLAGS.is_test:
-            model.run(valid_data, test_data)
-        else:
-            model.run(train_data, valid_data)
+    #     if FLAGS.is_test:
+    #         model.run(valid_data, test_data)
+    #     else:
+    #         model.run(train_data, valid_data)
 
 if __name__ == '__main__':
     tf.app.run()
